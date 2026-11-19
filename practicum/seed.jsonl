@@ -1,6 +1,6 @@
-{"id":"seed-01","message":"charged twice for one order","label":"billing"}
-{"id":"seed-02","message":"invoice total is incorrect","label":"billing"}
-{"id":"seed-03","message":"forgot password cannot sign in","label":"access"}
-{"id":"seed-04","message":"account locked after login attempts","label":"access"}
-{"id":"seed-05","message":"package is late tracking stopped","label":"delivery"}
-{"id":"seed-06","message":"order shipment has not arrived","label":"delivery"}
+{"id": "seed-01", "message": "同一笔订单扣了两次款", "label": "账单"}
+{"id": "seed-02", "message": "发票的合计金额有误", "label": "账单"}
+{"id": "seed-03", "message": "忘了密码，无法登录", "label": "账户"}
+{"id": "seed-04", "message": "多次登录失败后账号被锁定", "label": "账户"}
+{"id": "seed-05", "message": "包裹迟迟没到，物流信息也不更新", "label": "物流"}
+{"id": "seed-06", "message": "订单已经发货，但货物一直没送到", "label": "物流"}

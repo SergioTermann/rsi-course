@@ -1,9 +1,9 @@
-{"id":"pool-01","message":"charged twice on my credit card","label":"billing"}
-{"id":"pool-02","message":"invoice includes a duplicate fee","label":"billing"}
-{"id":"pool-03","message":"refund missing after return","label":"billing"}
-{"id":"pool-04","message":"password reset link expired","label":"access"}
-{"id":"pool-05","message":"login fails with authentication error","label":"access"}
-{"id":"pool-06","message":"two factor code never arrives","label":"access"}
-{"id":"pool-07","message":"package tracking says delayed in transit","label":"delivery"}
-{"id":"pool-08","message":"shipment delivered to wrong address","label":"delivery"}
-{"id":"pool-09","message":"courier lost my parcel","label":"delivery"}
+{"id": "pool-01", "message": "我的信用卡被重复扣款了", "label": "账单"}
+{"id": "pool-02", "message": "发票上多收了一笔手续费", "label": "账单"}
+{"id": "pool-03", "message": "已经退货，退款还没到账", "label": "账单"}
+{"id": "pool-04", "message": "重置密码的链接过期了", "label": "账户"}
+{"id": "pool-05", "message": "登录时提示身份验证失败", "label": "账户"}
+{"id": "pool-06", "message": "双重验证的验证码一直收不到", "label": "账户"}
+{"id": "pool-07", "message": "物流显示包裹在运输途中延误了", "label": "物流"}
+{"id": "pool-08", "message": "货物送错地址了", "label": "物流"}
+{"id": "pool-09", "message": "快递员把我的包裹弄丢了", "label": "物流"}

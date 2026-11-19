@@ -1,6 +1,6 @@
-{"id":"dev-01","message":"card charged for duplicate purchase","label":"billing"}
-{"id":"dev-02","message":"refund missing on invoice","label":"billing"}
-{"id":"dev-03","message":"cannot login after password reset","label":"access"}
-{"id":"dev-04","message":"authentication link expired again","label":"access"}
-{"id":"dev-05","message":"package tracking still in transit","label":"delivery"}
-{"id":"dev-06","message":"shipment at wrong address","label":"delivery"}
+{"id": "dev-01", "message": "买一件商品却被信用卡重复扣款", "label": "账单"}
+{"id": "dev-02", "message": "发票里找不到应退的款项", "label": "账单"}
+{"id": "dev-03", "message": "重置密码后仍无法登录", "label": "账户"}
+{"id": "dev-04", "message": "身份验证链接又过期了", "label": "账户"}
+{"id": "dev-05", "message": "查物流时发现包裹还在运输途中", "label": "物流"}
+{"id": "dev-06", "message": "这批货被送到了错误的地址", "label": "物流"}

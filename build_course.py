@@ -22,7 +22,7 @@ def code(text):
 
 
 def save():
-    md("[返回课程首页并选择下一节](recursive_self_improvement.ipynb)")
+    md("[返回课程首页并选择下一节](课程首页.ipynb)")
     notebook = dict(nbformat=4, nbformat_minor=5, cells=cells.copy(), metadata=dict(
         kernelspec=dict(name="python3", display_name="Python 3", language="python"),
         language_info=dict(name="python", version="3.12")))
@@ -48,7 +48,7 @@ def start(number, title, minutes, goal, concepts, guide):
 """)
 
 
-course_file = "01_setup_and_first_run.ipynb"
+course_file = "01_环境与第一次运行.ipynb"
 start(1, "安装环境与第一次运行", 20,
       "在自己的电脑上打开课程、运行 Python、保存实验结果。",
       "- 确认 Python 内核正在运行。\n- 运行一道带校验的简单题。\n- 找到工作目录并从中读回自己的第一份记录。",
@@ -110,7 +110,7 @@ md("""## 自检
 save()
 
 
-course_file = "02_task_strategy_and_sampling.ipynb"
+course_file = "02_策略与采样概率.ipynb"
 start(2, "任务、策略与采样", 30,
       "拆开一道题里的任务、候选解题规则和策略抽样。",
       "- 追踪一次策略如何挑选候选规则。\n- 解释权重变化如何改变抽样概率。\n- 说明固定随机种子解决了什么问题。",
@@ -161,7 +161,7 @@ md("""## 自检
 save()
 
 
-course_file = "03_verifier_and_data_splits.ipynb"
+course_file = "03_校验器与数据划分.ipynb"
 start(3, "校验器、训练集与独立评估", 35,
       "理解反馈循环里的答案校验和数据分区，并亲自检查数据泄漏。",
       "- 用规则计算答案是否正确。\n- 解释训练、开发、测试数据分别做什么。\n- 理解训练奖励正确时为何还要固定测试题。",
@@ -207,7 +207,7 @@ md("""## 自检
 save()
 
 
-course_file = "04_one_training_round.ipynb"
+course_file = "04_追踪一轮训练.ipynb"
 start(4, "跑完并读懂一轮训练", 35,
       "逐批执行采样、校验、策略更新，并按指令解释一轮结果。",
       "- 查看一批采样前后的权重差。\n- 区分尝试数、正确样本数与开发集准确率。\n- 识别一轮训练里没有收集到正样本的组。",
@@ -257,7 +257,7 @@ md("""## 自检
 save()
 
 
-course_file = "05_recursive_feedback.ipynb"
+course_file = "05_递归反馈与公平对照.ipynb"
 start(5, "把一轮训练变成递归反馈", 40,
       "对比冻结、一次训练、多轮均匀训练和按弱项调整训练分布。",
       "- 对照相同训练预算下的多种策略。\n- 读出弱项如何影响下一轮练习分配。\n- 用多个随机种子报告变化范围，而不是挑单次高分。",
@@ -309,7 +309,7 @@ md("""## 自检
 save()
 
 
-course_file = "06_failures_and_final_report.ipynb"
+course_file = "06_失败诊断与毕业报告.ipynb"
 start(6, "失败诊断、奖励漏洞与课程验收", 40,
       "挑战课程的假设，观察探索失败，并产出一份可供复核的实验记录。",
       "- 说明增加弱项训练量为何无法解决策略零概率探索。\n- 构造一个错误却会被宽松验证器奖励的例子。\n- 保存完整的配置、过程数据和最终成绩。",
@@ -362,10 +362,10 @@ from rsi_lab import INITIAL, train, evaluate
 runs = []
 for seed in (19, 20, 21):
     for name, adaptive, budget, rounds in [
-        ("frozen", False, 0, 0),
-        ("single", False, 160, 1),
-        ("multi_uniform", False, 32, 5),
-        ("multi_adaptive", True, 32, 5),
+        ("冻结", False, 0, 0),
+        ("一次更新", False, 160, 1),
+        ("多轮均匀", False, 32, 5),
+        ("多轮自适应", True, 32, 5),
     ]:
         weights, trace = train(seed, adaptive, budget, rounds)
         runs.append(dict(seed=seed, mode=name, budget=budget, rounds=rounds, adaptive=adaptive, weights=weights, history=trace,
@@ -373,17 +373,17 @@ for seed in (19, 20, 21):
 
 output = Path("results")
 output.mkdir(exist_ok=True)
-report = dict(initial=INITIAL, runs=runs, note="Toy arithmetic experiment. Results do not establish general LLM RSI capability.")
+report = dict(initial=INITIAL, runs=runs, note="本报告来自四规则算术实验，适用于分析当前任务的反馈机制。")
 path = output / "final_report.json"
 path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 loaded = json.loads(path.read_text(encoding="utf-8"))
 assert len(loaded["runs"]) == 12
-assert all(len(run["history"]) == (0 if run["mode"] == "frozen" else 1 if run["mode"] == "single" else 5)
+assert all(len(run["history"]) == (0 if run["mode"] == "冻结" else 1 if run["mode"] == "一次更新" else 5)
            for run in loaded["runs"])
 print(path.resolve(), "包含", len(loaded["runs"]), "组完整实验")""")
 md("""## 用报告回答一个问题
 
-在 Jupyter 左栏打开 results/final_report.json，找到 seed 为 19、mode 为 multi_adaptive 的记录。test.expected 是最终期望正确率，history 中的 kept 是每轮通过数。用同种子 multi_uniform 的 test.expected 作差，乘 100 得到百分点差值。种子 19 应约为 +2.5 个百分点；再算种子 21，检查方向是否一致。
+在 Jupyter 左栏打开 results/final_report.json，找到 seed 为 19、mode 为 多轮自适应 的记录。test.expected 是最终期望正确率，history 中的 kept 是每轮通过数。用同种子 多轮均匀 的 test.expected 作差，乘 100 得到百分点差值。种子 19 应约为 +2.5 个百分点；再算种子 21，检查方向是否一致。
 
 ## 课程毕业清单
 
@@ -401,4 +401,4 @@ save()
 
 
 if __name__ == "__main__":
-    print("Generated six course notebooks in", ROOT)
+    print("六节课程笔记本已生成，目录为", ROOT)
