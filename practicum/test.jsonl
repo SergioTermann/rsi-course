@@ -1,0 +1,12 @@
+{"id":"test-01","message":"duplicate fee on credit card statement","label":"billing"}
+{"id":"test-02","message":"refund amount on invoice too small","label":"billing"}
+{"id":"test-03","message":"charged for cancelled subscription","label":"billing"}
+{"id":"test-04","message":"my package arrived but invoice shows extra fee","label":"billing"}
+{"id":"test-05","message":"password reset email link expired","label":"access"}
+{"id":"test-06","message":"authentication code rejected during login","label":"access"}
+{"id":"test-07","message":"forgot credentials and cannot sign in","label":"access"}
+{"id":"test-08","message":"locked out while checking order status","label":"access"}
+{"id":"test-09","message":"tracking says parcel still in transit","label":"delivery"}
+{"id":"test-10","message":"courier delivered to another address","label":"delivery"}
+{"id":"test-11","message":"shipment never reached the office","label":"delivery"}
+{"id":"test-12","message":"paid invoice but package never arrived","label":"delivery"}

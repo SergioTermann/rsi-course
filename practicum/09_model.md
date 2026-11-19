@@ -1,0 +1,39 @@
+# 第 9 课 · 换成语言模型，调试同一条链路（约 60–90 分钟）
+
+先完成离线路由器，再按资源情况选本地语言模型分支。词频模型通过重新统计词频更新参数；这里把已验证的工单放进提示词作为示范，模型权重保持固定。两条路线共享输入、标签契约和开发题，但机制与资源开销不同。
+
+## 先调一条请求
+
+安装 Ollama 后，启动桌面应用或在单独终端运行 `ollama serve`。执行 `ollama list` 查看本机模型名称。如果没有可用模型且有下载条件，可以用 `ollama pull qwen2.5:0.5b` 获取小模型。若已有模型，请在下面命令中替换名称。记录 `ollama --version` 和 `ollama list` 显示的模型 ID，保留同一版本直到评估完成。
+
+在仓库根目录运行 `python`，逐行输入：
+
+```python
+from practicum.run import make_predictor, read_split, LABELS
+predict = make_predictor(read_split("seed"), model="qwen2.5:0.5b")
+out = predict("password reset link does not work")
+print(repr(out), out in LABELS)
+```
+
+函数向本机 11434 端口的 /api/chat 发送角色消息：系统消息写输出契约，历史问答提供示范，最后一条用户消息是待分类工单。处理器只清理首尾空白和大小写。若返回整句解释，即使能看出意图，也会按非法标签计错。用 `repr` 可以看到换行和多余文本。
+
+## 从单条到批量
+
+```sh
+python practicum/run.py develop --run llm-first --ollama qwen2.5:0.5b
+```
+
+默认要顺序调用 27 次（6 次基线开发评估、9 条练习、两次各 6 条开发评估）。首条请求可能包含模型加载时间。在 frozen.json 里按 latency_ms 从大到小查几条，分别检查过长回复、冷启动和非法输出。这个小批次的延迟不等于服务端的并发吞吐。
+
+| 现象 | 下一步 |
+|---|---|
+| 连接失败 | 运行 ollama list，确认服务已启动。适配器固定访问本机 11434 端口。 |
+| 模型不存在 | 复制本机的完整模型名，包括冒号后的 tag。 |
+| 输出“类别是 billing” | 先存下原始回复，再在开发集上检查修改输出指令后的正确率和非法率。 |
+| 第二轮没有合格样本 | 比较 generated 中的 prediction、label 和合法标签，区分语义错派与格式失败。 |
+
+**无需模型的练习**：在 Python 输入 `reply = "类别是 billing"`，比较 `reply in LABELS` 和 `"billing" in reply`。再对 `"not billing; choose access"` 做同样比较。解释为什么用子串命中会给错误行为奖励。
+
+**验收**：保存一次成功预测和一次失败的排查过程，注明模型名、模型 ID、输入、输出、耗时及判分。没有本地服务时，可完成格式练习并直接用离线版本进入第 10 课；将语言模型接入标为待验证。
+
+继续学习 [第 10 课](10_decide.md)。

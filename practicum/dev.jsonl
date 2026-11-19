@@ -1,0 +1,6 @@
+{"id":"dev-01","message":"card charged for duplicate purchase","label":"billing"}
+{"id":"dev-02","message":"refund missing on invoice","label":"billing"}
+{"id":"dev-03","message":"cannot login after password reset","label":"access"}
+{"id":"dev-04","message":"authentication link expired again","label":"access"}
+{"id":"dev-05","message":"package tracking still in transit","label":"delivery"}
+{"id":"dev-06","message":"shipment at wrong address","label":"delivery"}

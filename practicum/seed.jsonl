@@ -1,0 +1,6 @@
+{"id":"seed-01","message":"charged twice for one order","label":"billing"}
+{"id":"seed-02","message":"invoice total is incorrect","label":"billing"}
+{"id":"seed-03","message":"forgot password cannot sign in","label":"access"}
+{"id":"seed-04","message":"account locked after login attempts","label":"access"}
+{"id":"seed-05","message":"package is late tracking stopped","label":"delivery"}
+{"id":"seed-06","message":"order shipment has not arrived","label":"delivery"}

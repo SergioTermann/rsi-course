@@ -1,0 +1,9 @@
+{"id":"pool-01","message":"charged twice on my credit card","label":"billing"}
+{"id":"pool-02","message":"invoice includes a duplicate fee","label":"billing"}
+{"id":"pool-03","message":"refund missing after return","label":"billing"}
+{"id":"pool-04","message":"password reset link expired","label":"access"}
+{"id":"pool-05","message":"login fails with authentication error","label":"access"}
+{"id":"pool-06","message":"two factor code never arrives","label":"access"}
+{"id":"pool-07","message":"package tracking says delayed in transit","label":"delivery"}
+{"id":"pool-08","message":"shipment delivered to wrong address","label":"delivery"}
+{"id":"pool-09","message":"courier lost my parcel","label":"delivery"}
