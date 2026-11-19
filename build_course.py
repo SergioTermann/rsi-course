@@ -94,6 +94,7 @@ md("""## 把本次结果留在硬盘上
 运行下一格后，在 Jupyter 左侧双击 results，再打开 first_run.txt。它记录了刚才的答案。把第一道题的起点换成 9、预期答案改为 2，再运行计算和保存两格，检查文件里是否也变成了 2。""")
 code("""folder = Path("results")
 folder.mkdir(exist_ok=True)
+# 在左侧文件栏可按同一路径打开这份记录。
 record = folder / "first_run.txt"
 record.write_text(str(correct_answer), encoding="utf-8")
 assert int(record.read_text(encoding="utf-8")) == correct_answer
@@ -140,7 +141,8 @@ counts = [draws.count(rule) for rule in range(len(weights))]
 print(dict(zip(NAMES, counts)))
 assert draws == random.Random(19).choices(range(len(weights)), weights=weights, k=1000)""")
 md("""现在改大一个候选规则的权重，观察抽样分布怎样改变。每次改完都重置种子，这样可把权重变化与随机序列变化区分开。""")
-code("""changed = weights.copy()
+code("""# 复制后只改一项，原始概率仍可用于比较。
+changed = weights.copy()
 changed[2] += 10
 old_prob = weights[2] / sum(weights)
 new_prob = changed[2] / sum(changed)
@@ -182,6 +184,7 @@ md("""把 100 个起点划成三个互斥部分。训练集可用于产生训练
 code("""print("训练:", min(TRAIN), max(TRAIN), len(TRAIN))
 print("开发:", min(DEV), max(DEV), len(DEV))
 print("测试:", min(TEST), max(TEST), len(TEST))
+# 交集非空表示有起点同时出现在两个集合中。
 assert not set(TRAIN) & set(DEV)
 assert not set(TRAIN) & set(TEST)
 assert not set(DEV) & set(TEST)
@@ -220,6 +223,7 @@ import random
 
 rng = random.Random(19)
 batch = sample_batch(rng, INITIAL, [1, 1, 1, 1], budget=16)
+# 此时 16 个答案都已生成，下面的更新只会影响下一批。
 updated, attempts, kept = update(INITIAL, batch)
 assert sum(attempts) == len(batch)
 assert [sum(new) - sum(old) for new, old in zip(updated, INITIAL)] == kept
@@ -275,6 +279,7 @@ for row in trace:
 md("""先逐行看五轮记录。若一组的平滑失败率高于其他组，它下一轮被抽中的概率就更高，实际抽到的次数仍会波动；若正样本改变了策略，该组后续可能更容易答对。多轮均匀对照可以单独检验「中途更新策略」的作用，自适应对照再检验「按失败调整数据」的额外作用。""")
 code("""settings = [
     ("冻结", False, 0, 0),
+    # 160 × 1 和 32 × 5 使用相同预算，差异来自何时更新策略。
     ("一次更新", False, 160, 1),
     ("多轮均匀", False, 32, 5),
     ("多轮自适应", True, 32, 5),
@@ -320,6 +325,7 @@ sys.path.insert(0, str(Path.cwd()))
 from rsi_lab import INITIAL, NAMES, evaluate, train
 
 broken = [row.copy() for row in INITIAL]
+# 第三行是「前进三格」题，第三列正是它需要的规则。
 broken[2][2] = 0
 for row in broken:
     assert sum(row) > 0
