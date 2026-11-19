@@ -1,5 +1,7 @@
 # 递归自我改进：从原理到工程实战
 
+**简体中文** · [English](README.en.md)
+
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB) ![JupyterLab](https://img.shields.io/badge/Notebook-JupyterLab-F37626) ![CPU 即可](https://img.shields.io/badge/Hardware-CPU-26735B)
 
 **工作目标**：独立接手一张模型改进工单，从定义验收标准、复现基线、筛选反馈数据，到冻结候选、评估回退并向团队交接。前六课用小实验讲机制，后四课把同一套方法迁移到客服工单路由。核心路线使用 CPU 和合成中文工单，第 9 课另有本地语言模型接入练习。
