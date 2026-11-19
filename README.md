@@ -1,22 +1,37 @@
-﻿# 递归自我改进（RSI）实验课
+# 递归自我改进（RSI）中文实验课程
 
-当同一个策略既生成答案，又影响下一轮的练习内容时，怎样判断它真的学得更好了？这门中文交互课用一个可以逐轮检查的算术任务，带你比较一次更新、多轮更新和自适应出题。预计 25 分钟。实验仅使用 Python 标准库，在 CPU 上运行。
+从第一次运行 Python 代码开始，用六节课搭建一个能生成答案、检查答案并根据本轮结果安排下轮练习的系统。全程使用 CPU，可离线运行实验，首次安装 Jupyter 需要网络。
 
-## 开始学习
+## 第一次打开
 
-在仓库目录中运行以下命令，然后在 JupyterLab 里选择 Python 3 内核，从第一格开始按 Shift + Enter。已有 Jupyter 环境可直接打开 [课程 Notebook](recursive_self_improvement.ipynb)。
+在 Windows 文件资源管理器中打开本仓库，在地址栏输入 `powershell` 并回车。macOS 或 Linux 用户请在仓库目录打开终端。已经安装 Anaconda 的用户也可以从 Anaconda Prompt 进入本目录。
+
+先输入 `python --version`。建议使用 Python 3.10 或更新版本。如果找不到命令，请安装 Python 3 并重新打开终端。然后逐行执行：
 
 ```sh
-uv run --with jupyterlab --with ipykernel jupyter lab recursive_self_improvement.ipynb
+python -m pip install jupyterlab ipykernel
+python -m ipykernel install --user --name rsi-course --display-name "Python (RSI)"
+python -m jupyterlab 01_setup_and_first_run.ipynb
 ```
 
-## 动手实验
+浏览器会打开第一课。若没有自动打开，请复制终端输出的本机网址到浏览器。右上角选择 **Python (RSI)**，点击第一个代码格，按 **Shift + Enter**。左侧 `[*]` 表示正在执行，变成数字后查看格子下方的输出。用 **Ctrl+S** 保存进度，下一课可从左栏双击打开。保留终端直到学习结束，退出时回到终端按 **Ctrl+C** 并按提示确认。
 
-1. 测量初始策略的期望正确率与贪心正确率。
-2. 检查一轮训练里每类题的尝试数、通过数，以及下一轮分配给弱项的练习机会。
-3. 固定总预算为 160 次采样，比较三种训练方法，并用冻结策略作基线。
-4. 把某条正确规则的初始权重设为零，观察提高出题频率能否帮助策略发现它。
+## 学习路线
 
-最后一格把本轮配置和分组成绩写入 `results/rsi_report.json`。仓库附带一份[默认参数的参考结果](reference/rsi_report.json)，可供核对。
+| 课次 | 课程 | 操作与验收 |
+|---|---|---|
+| 1 | [环境与第一次运行](01_setup_and_first_run.ipynb) | 算出 8 前进 3 格的结果，在 results/first_run.txt 里找到它 |
+| 2 | [策略权重和采样概率](02_task_strategy_and_sampling.ipynb) | 把一条规则的权重加 10，对比理论概率和 1,000 次抽样计数 |
+| 3 | [校验器与数据划分](03_verifier_and_data_splits.ipynb) | 检查三个集合的边界，用一个错答案测试校验器 |
+| 4 | [追踪一轮训练](04_one_training_round.ipynb) | 跟踪 16 次采样，核对权重增量和通过数 |
+| 5 | [递归反馈与公平对照](05_recursive_feedback.ipynb) | 给三种训练方法各 160 次采样，按种子比较期望与贪心正确率 |
+| 6 | [失败诊断与毕业报告](06_failures_and_final_report.ipynb) | 用零权重和宽松校验器制造两种失败，读回含 12 组结果的报告 |
 
-维护课程正文时编辑 `build_rsi.py`，再运行 `python build_rsi.py` 重新生成无输出的 Notebook。
+六课预计共 3 小时 20 分钟，含练习。每节都能从新内核启动。复做时一次只改一个参数并从头运行该课。第六课的 `results/final_report.json` 会在重跑时覆盖，要保留两次结果可先重命名。参考分数来自这个四规则算术任务，不能据此推断通用语言模型的自我改进能力。
+
+## 遇到问题
+
+- **提示找不到 rsi_lab**：第一课的“工作目录”应包含 `rsi_lab.py`。从仓库根目录启动 Jupyter，保持 Notebook 和该文件在同一目录。
+- **提示变量未定义**：选择 **Kernel → Restart Kernel and Run All Cells**。每节课都要执行自己的导入格。
+- **找不到结果文件**：查看保存格打印的绝对路径，在左栏刷新文件列表。
+- **想核对实现**：打开 [实验函数](rsi_lab.py)。修改课程正文时编辑 [六课生成脚本](build_course.py)，再运行 `python build_course.py`。重建前另存自己的 Notebook 笔记。
